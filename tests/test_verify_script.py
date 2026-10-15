@@ -12,6 +12,7 @@ def test_verify_script_passes_with_only_tracked_project_files(tmp_path: Path) ->
     for relative_path in [
         ".gitignore",
         "CHANGELOG.md",
+        "LICENSE",
         "README.md",
         "pyproject.toml",
         "scripts",

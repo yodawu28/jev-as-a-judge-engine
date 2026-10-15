@@ -9,3 +9,4 @@ This project follows a lightweight changelog style inspired by Keep a Changelog,
 ### Added
 - Initialized project changelog.
 - Added public README with project status, scope, architecture snapshot, and development commands.
+- Added MIT license and truthful README badges for current project status, Python, uv, verification, and agent readiness.

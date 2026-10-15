@@ -1,5 +1,12 @@
 # Jev-as-Judge Engine
 
+[![Project Status](https://img.shields.io/badge/status-experimental%20PoC-orange)](#project-status)
+[![Python](https://img.shields.io/badge/python-3.12%2B-blue)](pyproject.toml)
+[![Package Manager](https://img.shields.io/badge/package%20manager-uv-2f74c0)](pyproject.toml)
+[![Verification](https://img.shields.io/badge/verification-verify.sh-brightgreen)](scripts/verify.sh)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Agent Ready](https://img.shields.io/badge/agent--ready-Codex%20%7C%20Claude%20Code%20%7C%20Cursor%20%7C%20Kimi%20Code-7b61ff)](#agent-ready)
+
 Event-driven LLM evaluation and observability experiments for judging agent
 outputs in near real time.
 
@@ -19,6 +26,31 @@ actions.
 | Runtime target | Local Event Bus Worker built from core function and CLI first |
 | Verification | `./scripts/verify.sh` |
 | Python | `>=3.12` |
+| License | MIT |
+
+## Agent Ready
+
+This repository is structured for agent-assisted development with a small,
+explicit verification surface. The public repo keeps product artifacts in git
+while local execution memory stays private and ignored.
+
+Current agent-facing convention:
+
+- Codex, Claude Code, Cursor, and Kimi Code can use `./scripts/verify.sh` as
+  the canonical completion gate.
+- Local harness files are intentionally not committed.
+- Public docs describe architecture and scope without storing raw prompts,
+  responses, credentials, or private execution notes.
+
+## Planned Signals
+
+These README signals are intentionally not shown as active badges until the
+project earns them:
+
+- Build Status: add after GitHub Actions exists.
+- Windows / macOS / Linux: add after CI runs an OS matrix.
+- OpenSSF Best Practices: add after the project is registered and reviewed.
+- Ask DeepWiki: add after the public repository is indexed.
 
 ## Why This Exists
 
@@ -93,6 +125,7 @@ The verification script runs:
 
 ```text
 docs/proposals/   Technical proposal and project narrative
+LICENSE           MIT license
 scripts/          Local verification and automation scripts
 src/              Python package source
 tests/            Unit and harness tests
