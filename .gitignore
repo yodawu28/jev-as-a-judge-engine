@@ -1,0 +1,23 @@
+# Harness / agent-local context
+.agents/
+AGENTS.md
+PROGRESS.md
+DECISIONS.md
+DECISION.md
+docs/workflow.md
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Local/editor/runtime noise
+.DS_Store
+.env
+.env.*
+*.log
+outputs/
