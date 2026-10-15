@@ -2,7 +2,7 @@
 name = "jev-as-jungle-engine"
 version = "0.1.0"
 description = "Event-driven LLM decision runtime for Jev-as-Judge experiments."
-readme = "CHANGELOG.md"
+readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
 
