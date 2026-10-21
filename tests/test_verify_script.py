@@ -14,6 +14,7 @@ def test_verify_script_passes_with_only_tracked_project_files(tmp_path: Path) ->
         "CHANGELOG.md",
         "LICENSE",
         "README.md",
+        "artifacts",
         "pyproject.toml",
         "scripts",
         "src",

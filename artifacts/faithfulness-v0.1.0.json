@@ -1,0 +1,62 @@
+{
+  "artifact_id": "faithfulness-v0.1.0",
+  "artifact_version": "0.1.0",
+  "description": "Context-grounded faithfulness artifact for RAG question answering.",
+  "metric": "context_grounded_faithfulness",
+  "input_schema_version": "decision-input/v0",
+  "output_schema_version": "decision-output/v0",
+  "supported_task_types": [
+    "RAG_QUESTION_ANSWERING"
+  ],
+  "backend_binding": {
+    "backend_id": "deterministic-rules-v0",
+    "backend_type": "DETERMINISTIC_RULES"
+  },
+  "questions": [
+    {
+      "question_id": "faithfulness.support",
+      "question_type": "SINGLE_CHOICE",
+      "prompt": "Is the agent response fully supported by the provided context chunks?",
+      "answer_options": [
+        "SUPPORTED",
+        "UNSUPPORTED",
+        "CONTRADICTS",
+        "INSUFFICIENT_CONTEXT"
+      ]
+    },
+    {
+      "question_id": "faithfulness.contradiction",
+      "question_type": "SINGLE_CHOICE",
+      "prompt": "Does the agent response directly contradict any provided context chunk?",
+      "answer_options": [
+        "SUPPORTED",
+        "UNSUPPORTED",
+        "CONTRADICTS",
+        "INSUFFICIENT_CONTEXT"
+      ]
+    },
+    {
+      "question_id": "faithfulness.insufficient_context",
+      "question_type": "SINGLE_CHOICE",
+      "prompt": "Is the provided context insufficient to judge the agent response?",
+      "answer_options": [
+        "SUPPORTED",
+        "UNSUPPORTED",
+        "CONTRADICTS",
+        "INSUFFICIENT_CONTEXT"
+      ]
+    }
+  ],
+  "combiner": "faithfulness_v0_rule",
+  "actions": [
+    "ALLOW",
+    "FLAG_HALLUCINATION",
+    "RETRY_WITH_CONTEXT",
+    "SEND_TO_HUMAN_REVIEW"
+  ],
+  "evaluation_report_ref": "reports/faithfulness-v0.1.0.json",
+  "extensions": {
+    "artifact_family": "faithfulness",
+    "owner_work_group": "Train Decision Model"
+  }
+}
