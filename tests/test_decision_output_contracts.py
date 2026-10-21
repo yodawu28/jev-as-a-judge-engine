@@ -59,6 +59,10 @@ def test_decision_output_accepts_additional_bounded_scores() -> None:
     assert serialized["scores"] == {"faithfulness": 1.0, "correctness": 0.75, "safety": 1.0}
 
 
+def test_decision_scores_does_not_override_pydantic_internal_extra_field() -> None:
+    assert "__pydantic_extra__" not in DecisionScores.__annotations__
+
+
 @pytest.mark.parametrize(
     ("field", "value"),
     [

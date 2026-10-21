@@ -9,6 +9,8 @@ from pydantic import (
     ConfigDict,
     Field,
     StringConstraints,
+    TypeAdapter,
+    ValidationError,
     field_serializer,
     field_validator,
     model_validator,
@@ -27,6 +29,8 @@ type SemanticVersionStr = Annotated[
     StringConstraints(strip_whitespace=True, pattern=r"^\d+\.\d+\.\d+$"),
 ]
 type BoundedScore = Annotated[float, Field(ge=0.0, le=1.0)]
+
+_BOUNDED_SCORE_ADAPTER = TypeAdapter(BoundedScore)
 
 FAITHFULNESS_ANSWER_OPTIONS = (
     "SUPPORTED",
@@ -55,9 +59,17 @@ class ContextChunk(_StrictFrozenModel):
 class DecisionScores(_StrictFrozenModel):
     model_config = ConfigDict(extra="allow", frozen=True, strict=True)
 
-    __pydantic_extra__: dict[str, BoundedScore] = Field(init=False)
-
     faithfulness: BoundedScore
+
+    @model_validator(mode="after")
+    def _validate_extra_scores(self) -> Self:
+        for name, value in (self.__pydantic_extra__ or {}).items():
+            try:
+                _BOUNDED_SCORE_ADAPTER.validate_python(value, strict=True)
+            except ValidationError as exc:
+                msg = f"extra score {name!r} must be between 0.0 and 1.0"
+                raise ValueError(msg) from exc
+        return self
 
 
 class EvidenceReference(_StrictFrozenModel):
