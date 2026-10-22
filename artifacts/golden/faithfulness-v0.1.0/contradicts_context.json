@@ -1,0 +1,43 @@
+{
+  "case_id": "contradicts_context",
+  "input": {
+    "schema_version": "decision-input/v0",
+    "trace_id": "tr-golden-contradicts-context",
+    "task_type": "RAG_QUESTION_ANSWERING",
+    "user_prompt": "What refund window is available for the starter plan?",
+    "provided_context": [
+      {
+        "chunk_id": "ctx-refund-window",
+        "text": "The starter plan supports refunds within 14 days of signup.",
+        "source": "synthetic://billing/refund-policy"
+      }
+    ],
+    "agent_response": "The starter plan supports refunds within 30 days of signup.",
+    "extensions": {
+      "fixture": "contradicts_context"
+    }
+  },
+  "expected_output": {
+    "schema_version": "decision-output/v0",
+    "trace_id": "tr-golden-contradicts-context",
+    "artifact_id": "faithfulness-v0.1.0",
+    "verdict": "FAIL",
+    "failure_type": "CONTRADICTS_CONTEXT",
+    "confidence": 0.95,
+    "scores": {
+      "faithfulness": 0.0
+    },
+    "suggested_action": "FLAG_HALLUCINATION",
+    "evidence": [
+      {
+        "chunk_id": "ctx-refund-window",
+        "relationship": "CONTRADICTS",
+        "note": "The response changes the refund window from 14 days to 30 days."
+      }
+    ],
+    "reasoning": "The response directly contradicts the refund window in the context.",
+    "extensions": {
+      "fixture": "contradicts_context"
+    }
+  }
+}

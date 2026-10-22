@@ -1,0 +1,43 @@
+{
+  "case_id": "unsupported_by_context",
+  "input": {
+    "schema_version": "decision-input/v0",
+    "trace_id": "tr-golden-unsupported-by-context",
+    "task_type": "RAG_QUESTION_ANSWERING",
+    "user_prompt": "Which support channels are included with the starter plan?",
+    "provided_context": [
+      {
+        "chunk_id": "ctx-support-channels",
+        "text": "The starter plan includes email support during business hours.",
+        "source": "synthetic://support/starter-plan"
+      }
+    ],
+    "agent_response": "The starter plan includes 24/7 phone support.",
+    "extensions": {
+      "fixture": "unsupported_by_context"
+    }
+  },
+  "expected_output": {
+    "schema_version": "decision-output/v0",
+    "trace_id": "tr-golden-unsupported-by-context",
+    "artifact_id": "faithfulness-v0.1.0",
+    "verdict": "FAIL",
+    "failure_type": "UNSUPPORTED_BY_CONTEXT",
+    "confidence": 0.82,
+    "scores": {
+      "faithfulness": 0.0
+    },
+    "suggested_action": "FLAG_HALLUCINATION",
+    "evidence": [
+      {
+        "chunk_id": "ctx-support-channels",
+        "relationship": "INSUFFICIENT",
+        "note": "The available context does not support the phone support claim."
+      }
+    ],
+    "reasoning": "The response adds a support channel that is not supported by the context.",
+    "extensions": {
+      "fixture": "unsupported_by_context"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "case_id": "insufficient_context",
+  "input": {
+    "schema_version": "decision-input/v0",
+    "trace_id": "tr-golden-insufficient-context",
+    "task_type": "RAG_QUESTION_ANSWERING",
+    "user_prompt": "What uptime service level agreement applies to enterprise accounts?",
+    "provided_context": [
+      {
+        "chunk_id": "ctx-enterprise-support",
+        "text": "Enterprise accounts include a named support contact during regional business hours.",
+        "source": "synthetic://plans/enterprise-support"
+      }
+    ],
+    "agent_response": "The provided context does not state an uptime service level agreement.",
+    "extensions": {
+      "fixture": "insufficient_context"
+    }
+  },
+  "expected_output": {
+    "schema_version": "decision-output/v0",
+    "trace_id": "tr-golden-insufficient-context",
+    "artifact_id": "faithfulness-v0.1.0",
+    "verdict": "FAIL",
+    "failure_type": "INSUFFICIENT_CONTEXT",
+    "confidence": 0.76,
+    "scores": {
+      "faithfulness": 0.0
+    },
+    "suggested_action": "SEND_TO_HUMAN_REVIEW",
+    "evidence": [
+      {
+        "chunk_id": "ctx-enterprise-support",
+        "relationship": "INSUFFICIENT",
+        "note": "The context mentions support coverage but does not provide the requested uptime SLA."
+      }
+    ],
+    "reasoning": "The available context is insufficient to answer the user prompt.",
+    "extensions": {
+      "fixture": "insufficient_context"
+    }
+  }
+}

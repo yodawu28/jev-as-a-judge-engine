@@ -1,0 +1,43 @@
+{
+  "case_id": "missing_answer",
+  "input": {
+    "schema_version": "decision-input/v0",
+    "trace_id": "tr-golden-missing-answer",
+    "task_type": "RAG_QUESTION_ANSWERING",
+    "user_prompt": "How much storage does the starter plan include?",
+    "provided_context": [
+      {
+        "chunk_id": "ctx-storage-limit",
+        "text": "The starter plan includes 10 GB of document storage.",
+        "source": "synthetic://plans/starter-storage"
+      }
+    ],
+    "agent_response": "I cannot answer that from the provided information.",
+    "extensions": {
+      "fixture": "missing_answer"
+    }
+  },
+  "expected_output": {
+    "schema_version": "decision-output/v0",
+    "trace_id": "tr-golden-missing-answer",
+    "artifact_id": "faithfulness-v0.1.0",
+    "verdict": "FAIL",
+    "failure_type": "MISSING_ANSWER",
+    "confidence": 0.88,
+    "scores": {
+      "faithfulness": 0.25
+    },
+    "suggested_action": "RETRY_WITH_CONTEXT",
+    "evidence": [
+      {
+        "chunk_id": "ctx-storage-limit",
+        "relationship": "RELATED",
+        "note": "The context contains the requested storage limit, but the response does not answer it."
+      }
+    ],
+    "reasoning": "The response misses an answer that is available in the context.",
+    "extensions": {
+      "fixture": "missing_answer"
+    }
+  }
+}

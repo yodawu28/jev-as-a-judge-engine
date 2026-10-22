@@ -1,0 +1,43 @@
+{
+  "case_id": "pass_supported",
+  "input": {
+    "schema_version": "decision-input/v0",
+    "trace_id": "tr-golden-pass-supported",
+    "task_type": "RAG_QUESTION_ANSWERING",
+    "user_prompt": "What refund window is available for the starter plan?",
+    "provided_context": [
+      {
+        "chunk_id": "ctx-refund-window",
+        "text": "The starter plan supports refunds within 14 days of signup.",
+        "source": "synthetic://billing/refund-policy"
+      }
+    ],
+    "agent_response": "The starter plan supports refunds within 14 days of signup.",
+    "extensions": {
+      "fixture": "pass_supported"
+    }
+  },
+  "expected_output": {
+    "schema_version": "decision-output/v0",
+    "trace_id": "tr-golden-pass-supported",
+    "artifact_id": "faithfulness-v0.1.0",
+    "verdict": "PASS",
+    "failure_type": "NONE",
+    "confidence": 0.99,
+    "scores": {
+      "faithfulness": 1.0
+    },
+    "suggested_action": "ALLOW",
+    "evidence": [
+      {
+        "chunk_id": "ctx-refund-window",
+        "relationship": "SUPPORTS",
+        "note": "The response states the same refund window as the context."
+      }
+    ],
+    "reasoning": "The response is fully grounded in the provided context.",
+    "extensions": {
+      "fixture": "pass_supported"
+    }
+  }
+}
