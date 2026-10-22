@@ -1,3 +1,4 @@
+import inspect
 import json
 from typing import Any, cast
 
@@ -61,6 +62,10 @@ def test_decision_output_accepts_additional_bounded_scores() -> None:
 
 def test_decision_scores_does_not_override_pydantic_internal_extra_field() -> None:
     assert "__pydantic_extra__" not in DecisionScores.__annotations__
+
+
+def test_decision_scores_uses_public_extra_accessor() -> None:
+    assert "__pydantic_extra__" not in inspect.getsource(DecisionScores)
 
 
 @pytest.mark.parametrize(

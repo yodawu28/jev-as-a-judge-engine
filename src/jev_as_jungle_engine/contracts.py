@@ -2,7 +2,7 @@
 
 from collections.abc import Mapping
 from types import MappingProxyType
-from typing import Annotated, Literal, Self
+from typing import Annotated, Literal, Self, overload
 
 from pydantic import (
     BaseModel,
@@ -63,7 +63,7 @@ class DecisionScores(_StrictFrozenModel):
 
     @model_validator(mode="after")
     def _validate_extra_scores(self) -> Self:
-        for name, value in (self.__pydantic_extra__ or {}).items():
+        for name, value in (self.model_extra or {}).items():
             try:
                 _BOUNDED_SCORE_ADAPTER.validate_python(value, strict=True)
             except ValidationError as exc:
@@ -289,3 +289,37 @@ class DecisionOutput(_StrictFrozenModel):
     @field_serializer("extensions")
     def _serialize_extensions(self, value: Mapping[str, object]) -> dict[str, object]:
         return dict(value)
+
+_DECISION_INPUT_JSON_ADAPTER: TypeAdapter[DecisionInput] = TypeAdapter(DecisionInput)
+_DECISION_OUTPUT_JSON_ADAPTER: TypeAdapter[DecisionOutput] = TypeAdapter(DecisionOutput)
+_DECISION_ARTIFACT_JSON_ADAPTER: TypeAdapter[DecisionArtifact] = TypeAdapter(
+    DecisionArtifact
+)
+
+
+def parse_decision_input_json(json_text: str) -> DecisionInput:
+    return _DECISION_INPUT_JSON_ADAPTER.validate_json(json_text)
+
+
+def parse_decision_output_json(json_text: str) -> DecisionOutput:
+    return _DECISION_OUTPUT_JSON_ADAPTER.validate_json(json_text)
+
+
+def parse_decision_artifact_json(json_text: str) -> DecisionArtifact:
+    return _DECISION_ARTIFACT_JSON_ADAPTER.validate_json(json_text)
+
+
+@overload
+def serialize_contract(contract: DecisionInput) -> dict[str, object]: ...
+
+
+@overload
+def serialize_contract(contract: DecisionOutput) -> dict[str, object]: ...
+
+
+@overload
+def serialize_contract(contract: DecisionArtifact) -> dict[str, object]: ...
+
+
+def serialize_contract(contract: BaseModel) -> dict[str, object]:
+    return contract.model_dump(mode="json")
