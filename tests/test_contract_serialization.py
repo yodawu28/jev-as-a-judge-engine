@@ -6,6 +6,7 @@ import pytest
 from pydantic import ValidationError
 
 from jev_as_jungle_engine import contracts
+from jev_as_jungle_engine._contracts import serialization as contract_serialization
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_ARTIFACT_PATH = REPO_ROOT / "artifacts" / "faithfulness-v0.1.0.json"
@@ -101,7 +102,16 @@ def test_contract_json_parser_fails_closed_on_schema_mismatch() -> None:
 
 
 def test_contract_helpers_avoid_static_analyzer_hostile_pydantic_patterns() -> None:
-    source = inspect.getsource(contracts)
+    source = inspect.getsource(contract_serialization)
 
     assert "type DecisionContract =" not in source
     assert "model_validate_json" not in source
+
+
+def test_static_analyzer_regression_guard_targets_serialization_implementation() -> None:
+    guard_source = inspect.getsource(
+        test_contract_helpers_avoid_static_analyzer_hostile_pydantic_patterns
+    )
+
+    assert "inspect.getsource(contract_serialization)" in guard_source
+    assert "inspect.getsource(contracts)" not in guard_source
