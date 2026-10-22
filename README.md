@@ -106,6 +106,33 @@ Deferred on purpose:
 - Safety and schema-compliance decision artifacts.
 - Production event bus, telemetry database, and artifact registry.
 
+## Decision Contract v0
+
+Sprint 1.0 establishes the public contract foundation for future CLI, backend,
+and local event-bus work.
+
+- `DecisionInput v0` accepts one `RAG_QUESTION_ANSWERING` event with a
+  `trace_id`, user prompt, agent response, and one or more context chunks.
+- `DecisionOutput v0` returns a typed verdict, failure type, confidence score,
+  evidence references, reasoning for local debugging, and a suggested action.
+- `DecisionArtifact v0` declares the metric, schema versions, supported task
+  type, backend binding, judge questions, fixed answer options, combiner, and
+  supported action vocabulary.
+
+The stable public import surface is
+`src/jev_as_jungle_engine/contracts.py`. Internals are split into private
+`_contracts/` modules so runtime code can import one facade while the contract
+implementation stays maintainable.
+
+The canonical local artifact fixture is
+`artifacts/faithfulness-v0.1.0.json`. It validates through the same
+`DecisionArtifact` model used by runtime code.
+
+Deferred on purpose: schema-compliance artifacts, safety artifacts, model
+adapters, event-bus workers, dashboards, telemetry databases, artifact
+registries, automatic retries, and human-review workflows remain outside the
+Sprint 1 contract foundation.
+
 ## Development
 
 Install dependencies and run the canonical verification gate:
